@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../../generated/prisma";
 import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
@@ -13,7 +13,10 @@ async function main() {
         name: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
         price: parseFloat(faker.commerce.price({ min: 10, max: 2000 })), 
-        image: faker.image.url(), // optional
+        image: faker.image.url(),
+        brand: faker.company.name(),
+        size: [faker.helpers.arrayElement(['S', 'M', 'L', 'XL', 'XXL'])],
+        embedding: Array.from({ length: 1536 }, () => Math.random()),
       },
     });
   }
