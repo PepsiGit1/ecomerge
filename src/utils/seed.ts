@@ -16,7 +16,6 @@ async function main() {
         image: faker.image.url(),
         brand: faker.company.name(),
         size: [faker.helpers.arrayElement(['S', 'M', 'L', 'XL', 'XXL'])],
-        embedding: Array.from({ length: 1536 }, () => Math.random()),
       },
     });
   }

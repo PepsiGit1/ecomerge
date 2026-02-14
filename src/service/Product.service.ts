@@ -64,7 +64,15 @@ export const deleteProductService = async (id: string) => {
 }
 
 export const getProductService = async (data: Pagination) => {
+    const where: any = {};
+    if (data.query) {
+        where.name = {
+            contains: data.query,
+            mode: "insensitive",
+        };
+    }
     const product = await prisma.product.findMany({
+        where: where,
         skip: data.offset * data.limit,
         take: data.limit,
         orderBy: { createdAt: "desc" },
@@ -98,23 +106,6 @@ export const getProductServiceById = async (id: string) => {
     };
 };
 
-
-export const searchProductService = async (data: Pagination) => {
-    const where: any = {};
-    if (data.query) {
-        where.name = {
-            contains: data.query,
-            mode: "insensitive",
-        };
-    }
-    const product = await prisma.product.findMany({
-        where: where,
-        skip: data.offset * data.limit,
-        take: data.limit,
-        orderBy: { createdAt: "desc" },
-    })
-    return product;
-}
 
 export const updateRatingService = async (
     productId: string,
