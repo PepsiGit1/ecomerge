@@ -1,5 +1,5 @@
 import { PrismaClient } from "../../generated/prisma";
-import { Pagination } from "../types/pagination";
+import { Pagination, QueryProduct } from "../types/pagination";
 import { IProduct } from "../types/product";
 
 const prisma = new PrismaClient();
@@ -64,13 +64,23 @@ export const deleteProductService = async (id: string) => {
 }
 
 export const getProductService = async (data: Pagination) => {
-    const where: any = {};
+    const where: QueryProduct = {};
     if (data.query) {
         where.name = {
             contains: data.query,
             mode: "insensitive",
         };
     }
+    if (data.from || data.to) {
+        where.createdAt = {};
+        if (data.from) {
+            where.createdAt.gte = new Date(data.from);
+        }
+        if (data.to) {
+            where.createdAt.lte = new Date(data.to);
+        }
+    }
+
     const product = await prisma.product.findMany({
         where: where,
         skip: data.offset * data.limit,

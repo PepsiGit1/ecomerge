@@ -8,10 +8,12 @@ export const getAllProductController = async (
 ): Promise<void> => {
     try {
         const offset = Number(req.query.offset) || 0;
-        const limit = Number(req.query.limit) || 10;
+        const limit = Number(req.query.limit) || 100;
         const query = req.query.q as string | undefined;
+        const from = req.query.from as string | undefined;
+        const to = req.query.to as string | undefined;
 
-        const products = await getProductService({ limit: limit, offset: offset, query: query });
+        const products = await getProductService({ limit: limit, offset: offset, query: query, from: from, to: to });
 
         res.status(200).json({
             success: true,

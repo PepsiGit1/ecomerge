@@ -7,7 +7,7 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   // Example: create 20 products
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 30; i++) {
     await prisma.product.create({
       data: {
         name: faker.commerce.productName(),
